@@ -9,18 +9,15 @@ import { fileURLToPath } from "url";
 
 dotenv.config();
 connectDB();
+
 const app = express();
 app.use(
   cors({
-    origin: [
-      "https://3-d-model-hub.vercel.app/",
-      "http://localhost:3000"
-    ],
+    origin: ["https://3-d-model-hub.vercel.app", "http://localhost:3000"],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true
   })
 );
-
 
 app.use(express.json());
 app.use('/', routes);
