@@ -6,6 +6,7 @@ import connectDB from "./db.js";
 import routes from './routes/router.js'
 import { fileURLToPath } from "url";
 
+
 dotenv.config();
 connectDB();
 
