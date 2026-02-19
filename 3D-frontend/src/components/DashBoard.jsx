@@ -52,32 +52,32 @@ const DashBoard = () => {
   };
 
   const handleUpload = async () => {
-    if (!file) return alert("Select a 3D asset first.");
+  if (!file) return alert("Select a 3D asset first.");
 
-    const fileName = file.name.toLowerCase();
-    const allowedExtension = ".glb"
+  const allowedExtension = ".glb";
+  if (!file.name.toLowerCase().endsWith(allowedExtension)) {
+    return alert("Invalid file type. Only .glb files are supported.");
+  }
 
-    if (!fileName.endsWith(allowedExtension)) {
-      return alert("Invalid file type. Only .glb assets are supported.");
-    }
+  const formData = new FormData();
+  formData.append("model", file); // ✅ key must match backend
 
-    const formData = new FormData();
-    formData.append("model", file);
+  try {
+    setIsLoading(true);
+    const res = await uploadModel(formData);
+    console.log("Upload response:", res.data);
+    alert("Success: Model uploaded!");
+    setFile(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    fetchModels(); // refresh model list
+  } catch (err) {
+    console.error("Upload failed:", err);
+    alert("Error uploading model. Check console for details.");
+  } finally {
+    setIsLoading(false);
+  }
+};
 
-    try {
-      setIsLoading(true);
-      await uploadModel(formData);
-      alert("Success: Model integrated into the grid.");
-      setFile(null);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-      fetchModels(); // Refresh list
-    } catch (error) {
-      console.error("Upload failed:", error);
-      alert("Error: Failed to sync asset. Check console for details.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to remove this model from the grid?")) return;

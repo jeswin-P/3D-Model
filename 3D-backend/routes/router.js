@@ -8,3 +8,4 @@ Router.get('/getAllModels', getAllModels);
 Router.delete('/deleteModel/:id', deleteModel);
 
 export default Router;
+
