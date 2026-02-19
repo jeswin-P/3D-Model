@@ -9,7 +9,7 @@ import { fileURLToPath } from "url";
 
 dotenv.config();
 connectDB();
-
+const app = express();
 app.use(
   cors({
     origin: [
