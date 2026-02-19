@@ -13,7 +13,7 @@ connectDB();
 app.use(
   cors({
     origin: [
-      "https://3-d-model-dcyf008os-jeswin-ps-projects-fdd45b89.vercel.app",
+      "https://3-d-model-hub.vercel.app/",
       "http://localhost:3000"
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
