@@ -12,8 +12,8 @@ connectDB();
 const app = express();
 
 // CORS — allow flexible origins via env or fallbacks
-const allowedOrigins = process.env.ALLOWED_ORIGINS 
-  ? process.env.ALLOWED_ORIGINS.split(",") 
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
   : ["https://3-d-model-hub.vercel.app", "http://localhost:3000"];
 
 app.use(cors({
@@ -26,7 +26,7 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
+  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   credentials: true
 }));
 
@@ -43,8 +43,8 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Optional root test route
 app.get("/", (req, res) => res.send("Backend is running ✅"));
 
-// Debug all incoming requests
-app.all('*', (req, res, next) => {
+// Debug all incoming requests (catch-all for unhandled routes)
+app.all(/(.*)/, (req, res, next) => {
   console.log(`Incoming request: ${req.method} ${req.url}`);
   next();
 });

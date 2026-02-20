@@ -7,7 +7,7 @@ const Viewer = () => {
   const [models, setModels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState(null);
-  const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5000";
+  const API_BASE = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     async function fetchData() {
