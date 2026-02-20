@@ -21,6 +21,13 @@ const DashBoard = () => {
       setModels(res.data);
     } catch (error) {
       console.error("Failed to fetch models:", error);
+      console.error("Error details:", {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        message: error.message,
+        url: error.config?.url,
+        baseURL: error.config?.baseURL,
+      });
       // Don't alert here to avoid spamming if 404
       if (error.response?.status !== 404) {
         console.error("Critical error fetching models.");
@@ -66,13 +73,22 @@ const DashBoard = () => {
     setIsLoading(true);
     const res = await uploadModel(formData);
     console.log("Upload response:", res.data);
+    console.log("File uploaded successfully:", res.status, res.statusText);
     alert("Success: Model uploaded!");
     setFile(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
     fetchModels(); // refresh model list
   } catch (err) {
     console.error("Upload failed:", err);
-    alert("Error uploading model. Check console for details.");
+    console.error("Upload error details:", {
+      status: err.response?.status,
+      statusText: err.response?.statusText,
+      message: err.message,
+      url: err.config?.url,
+      baseURL: err.config?.baseURL,
+      data: err.response?.data,
+    });
+    alert("Error uploading model. Check console (F12) for details.");
   } finally {
     setIsLoading(false);
   }
