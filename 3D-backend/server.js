@@ -43,29 +43,9 @@ app.use(express.json());
 
 // Serve uploads folder
 // Use absolute path for uploads to ensure consistency
-const UPLOADS_DIR = path.join(process.cwd(), "uploads");
-
-// Ensure upload directory exists
-if (!fs.existsSync(UPLOADS_DIR)) {
-  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-}
-
-console.log(`Serving uploads from: ${UPLOADS_DIR}`);
-app.use("/uploads", express.static(UPLOADS_DIR));
-
-// Debug route to check files in uploads directory
-app.get('/debug/uploads', (req, res) => {
-  try {
-    const files = fs.readdirSync(UPLOADS_DIR);
-    res.json({
-      directory: UPLOADS_DIR,
-      count: files.length,
-      files: files
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// GridFS is used for storage, so local static file serving is no longer primary
+// but we can keep the route for debugging or health checks
+app.get("/", (req, res) => res.send("Backend is running with GridFS ✅"));
 
 // Use your router
 app.use('/', routes);
