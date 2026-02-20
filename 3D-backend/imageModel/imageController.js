@@ -3,8 +3,18 @@ import fs from "fs";
 import path from "path";
 import imageSchema from "./imageSchema.js";
 
+// Use absolute path for uploads to ensure consistency
+const UPLOADS_DIR = path.join(process.cwd(), "uploads");
+
+// Ensure upload directory exists
+if (!fs.existsSync(UPLOADS_DIR)) {
+  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+}
+
 const storage = multer.diskStorage({
-  destination: "./uploads",
+  destination: function (req, file, cb) {
+    cb(null, UPLOADS_DIR);
+  },
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname);
   },
