@@ -1,14 +1,18 @@
 import multer from "multer";
 import fs from "fs";
 import path from "path";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import cloudinary from "../config/cloudinary.js";
 import imageSchema from "./imageSchema.js";
 
-const storage = multer.diskStorage({
-  destination: "./uploads",
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "3d-models",
+    resource_type: "auto", // VERY IMPORTANT for .glb
   },
 });
+
 export const upload = multer({ storage });
 
 export const addModel = async (req, res) => {
@@ -18,8 +22,8 @@ export const addModel = async (req, res) => {
     }
 
     const newModel = new imageSchema({
-      filename: req.file.filename,
-      filepath: req.file.path.replace(/\\/g, "/"),
+      filename: req.file.originalname,
+      filepath: req.file.path,
     });
 
     await newModel.save();
