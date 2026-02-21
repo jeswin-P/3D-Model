@@ -12,7 +12,7 @@ connectDB();
 const app = express();
 app.use(
   cors({
-    origin: [process.env.APPLICATION_URL, "http://localhost:3000"],
+    origin: [process.env.APPLICATION_URL],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true
   })
