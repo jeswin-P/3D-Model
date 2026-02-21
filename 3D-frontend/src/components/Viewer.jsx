@@ -7,19 +7,7 @@ const Viewer = () => {
   const [models, setModels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState(null);
-  
-  // Determine API base URL (must match api.js logic)
-  const getBaseURL = () => {
-    if (process.env.REACT_APP_API_URL) {
-      return process.env.REACT_APP_API_URL;
-    }
-    if (process.env.NODE_ENV === 'production') {
-      return window.location.origin;  // Use current domain
-    }
-    return 'http://localhost:5000';
-  };
-  
-  const API_BASE = getBaseURL();
+  const API_BASE = process.env.REACT_APP_SERVER_APP_URL || "http://localhost:5000";
 
   useEffect(() => {
     async function fetchData() {
@@ -55,7 +43,7 @@ const Viewer = () => {
               <button className="close-expanded" onClick={() => setExpandedId(null)} />
             )}
 
-            <LazyModel url={`${API_BASE}/files/${model.fileId || model.filename}`} isExpanded={expandedId === model._id} />
+            <LazyModel url={`${API_BASE}/uploads/${model.filename}`} isExpanded={expandedId === model._id} />
 
             <div className="card-overlay">
               <span className="model-name">{model.filename.split('-').slice(1).join('-')}</span>

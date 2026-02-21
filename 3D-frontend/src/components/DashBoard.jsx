@@ -21,13 +21,6 @@ const DashBoard = () => {
       setModels(res.data);
     } catch (error) {
       console.error("Failed to fetch models:", error);
-      console.error("Error details:", {
-        status: error.response?.status,
-        statusText: error.response?.statusText,
-        message: error.message,
-        url: error.config?.url,
-        baseURL: error.config?.baseURL,
-      });
       // Don't alert here to avoid spamming if 404
       if (error.response?.status !== 404) {
         console.error("Critical error fetching models.");
@@ -59,41 +52,32 @@ const DashBoard = () => {
   };
 
   const handleUpload = async () => {
-  if (!file) return alert("Select a 3D asset first.");
+    if (!file) return alert("Select a 3D asset first.");
 
-  const allowedExtension = ".glb";
-  if (!file.name.toLowerCase().endsWith(allowedExtension)) {
-    return alert("Invalid file type. Only .glb files are supported.");
-  }
+    const fileName = file.name.toLowerCase();
+    const allowedExtension = ".glb"
 
-  const formData = new FormData();
-  formData.append("model", file); // ✅ key must match backend
+    if (!fileName.endsWith(allowedExtension)) {
+      return alert("Invalid file type. Only .glb assets are supported.");
+    }
 
-  try {
-    setIsLoading(true);
-    const res = await uploadModel(formData);
-    console.log("Upload response:", res.data);
-    console.log("File uploaded successfully:", res.status, res.statusText);
-    alert("Success: Model uploaded!");
-    setFile(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-    fetchModels(); // refresh model list
-  } catch (err) {
-    console.error("Upload failed:", err);
-    console.error("Upload error details:", {
-      status: err.response?.status,
-      statusText: err.response?.statusText,
-      message: err.message,
-      url: err.config?.url,
-      baseURL: err.config?.baseURL,
-      data: err.response?.data,
-    });
-    alert("Error uploading model. Check console (F12) for details.");
-  } finally {
-    setIsLoading(false);
-  }
-};
+    const formData = new FormData();
+    formData.append("model", file);
 
+    try {
+      setIsLoading(true);
+      await uploadModel(formData);
+      alert("Success: Model integrated into the grid.");
+      setFile(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      fetchModels(); // Refresh list
+    } catch (error) {
+      console.error("Upload failed:", error);
+      alert("Error: Failed to sync asset. Check console for details.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to remove this model from the grid?")) return;

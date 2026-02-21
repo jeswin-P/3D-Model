@@ -3,8 +3,6 @@ node_modules/
 
 # Environment variables
 .env
-.env.local
-.env.production.local
 
 # Logs
 *.log
@@ -20,7 +18,6 @@ Thumbs.db
 .vercel
 
 # Optional: Ignore coverage reports, if using test tools like Jest
-coverage/
 coverage/
 
 # Optional: Ignore build artifacts if any are generated
