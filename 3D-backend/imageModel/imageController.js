@@ -9,7 +9,7 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "3d-models",
-    resource_type: "auto", // VERY IMPORTANT for .glb
+    resource_type: "auto", 
   },
 });
 

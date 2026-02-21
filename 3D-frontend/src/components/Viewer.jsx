@@ -43,10 +43,10 @@ const Viewer = () => {
               <button className="close-expanded" onClick={() => setExpandedId(null)} />
             )}
 
-            <LazyModel url={`${API_BASE}/uploads/${model.filename}`} isExpanded={expandedId === model._id} />
+            <LazyModel url={model.filepath} isExpanded={expandedId === model._id} />
 
             <div className="card-overlay">
-              <span className="model-name">{model.filename.split('-').slice(1).join('-')}</span>
+              <span className="model-name">{model.filename}</span>
               <button className="expand-btn" onClick={() => setExpandedId(model._id)}>
                 {expandedId === model._id ? 'COLLAPSE' : 'FULL VIEW'}
               </button>
